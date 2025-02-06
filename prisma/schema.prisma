@@ -1,0 +1,236 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Manager
+  Seller
+  Customer
+}
+
+enum Doors {
+  Two
+  Three
+  Four
+}
+
+enum Model {
+  SUV
+  Sedan
+  Hatch
+  Pickups
+  Crossover
+  Stilt
+  Minivan
+  Sport
+  Van
+  Coupe
+}
+
+enum Color {
+  Red
+  Black
+  Green
+  Silver
+  White
+  Blue
+  Gray
+  Yellow
+  Orange
+  Metalic
+  Pink
+  Purple
+  Brown
+}
+
+enum GearBox {
+  Automatic
+  Manual
+}
+
+enum Fuel {
+  Gasoline
+  Flex
+  Ethanol
+  Diesel
+  GNV
+  Eletric
+}
+
+enum Capacity {
+  Two
+  Four
+  Five
+  Six
+}
+
+enum SoldStatus {
+  Active
+  Reserved
+  Sold
+}
+
+model Favorite {
+  id              String        @id @unique @default(uuid())
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  advertisementId String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime
+}
+
+model Address {
+  id           String   @id @unique @default(uuid())
+  street       String
+  city         String
+  state        String
+  zipCode      Int
+  country      String
+  neighborhood String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+}
+
+model User {
+  id            String          @id @unique @default(uuid())
+  avatar        String?
+  name          String
+  username      String          @unique
+  email         String          @unique
+  password      String
+  roles         UserRole[]      @default([])
+  advertisement Advertisement[]
+  favorites     Favorite[]
+  likes         Like[]
+  feedbacks     Feedback[]
+  disabled      DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  address       Address?
+  orders        Order[]
+  images        Image[]
+}
+
+model Like {
+  id              String         @id @unique @default(uuid())
+  feedback        Feedback?      @relation(fields: [feedbackId], references: [id])
+  feedbackId      String?
+  user            User           @relation(fields: [userId], references: [id])
+  userId          String
+  advertisement   Advertisement? @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  advertisementId String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime
+
+  @@unique([advertisementId, userId])
+}
+
+model Feedback {
+  id              String        @id @default(uuid())
+  stars           Float
+  comment         String
+  title           String
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  advertisementId String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  likes           Like[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime
+}
+
+model Image {
+  id                  String         @id @default(uuid())
+  url                 String
+  blurHash            String?
+  advertisementImages Advertisement? @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  advertisementId     String?
+  isThumbnail         Boolean        @default(false)
+  isAvatar            Boolean        @default(false)
+  user                User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime
+
+  @@unique([userId, id])
+}
+
+model Brand {
+  id            String          @id @default(uuid())
+  name          String
+  logoUrl       String
+  advertisement Advertisement[]
+  createdAt     DateTime
+  updatedAt     DateTime
+}
+
+model Advertisement {
+  id           String     @id @default(uuid())
+  feedbacks    Feedback[]
+  km           Float
+  localization String
+  phone        String
+  images       Image[]
+  thumbnailUrl String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  favorites    Favorite[]
+  title        String
+  description  String
+  year         Int
+  likes        Like[]
+  details      String[]
+  brand        Brand      @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brandId      String
+  doors        Doors
+  model        Model
+  color        Color
+  price        Float
+  soldStatus   SoldStatus
+  salePrice    Float?
+  gearBox      GearBox
+  fuel         Fuel
+  capacity     Capacity
+  createdAt    DateTime
+  updatedAt    DateTime
+  order        Order?     @relation(fields: [orderId], references: [id], onDelete: NoAction)
+  orderId      String?
+}
+
+model Order {
+  id            String          @id @unique @default(uuid())
+  advertisement Advertisement[]
+  user          User?           @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId        String?         @unique
+  createdAt     DateTime
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationEmailToken {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

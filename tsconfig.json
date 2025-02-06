@@ -1,0 +1,11 @@
+{
+  "extends": "@kalilasc/typescript-config/nodejs.json",
+  "compilerOptions": {
+    "target": "es2022",
+    "baseUrl": "./",
+    "paths": {
+      "@root/*": ["./src/*"]
+    },
+    "types": ["vitest/globals", "node", "multer"]
+  }
+}
