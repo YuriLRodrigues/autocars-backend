@@ -39,7 +39,7 @@ describe('Find All Sold Ads - Use Case', () => {
     sut = new FindAllSoldsAdsUseCase(inMemoryAdRepository, inMemoryUserRepository);
   });
 
-  it('should be able do find all sold by user id with referenceDate', async () => {
+  it('should be able do find all sold by user id with referenceDate (just your ads, not manager)', async () => {
     const user = makeFakeUser({ roles: [UserRoles.Seller] });
     inMemoryUserRepository.register({ user });
 
@@ -60,7 +60,7 @@ describe('Find All Sold Ads - Use Case', () => {
       inMemoryAdRepository.createAd({ advertisement });
     });
 
-    const output = await sut.execute({ userId: user.id, referenceDate: new Date().getMonth() + 1 });
+    const output = await sut.execute({ userId: user.id, referenceDate: new Date().getMonth() + 1, isManager: false });
 
     expect(output.isRight()).toBe(true);
     expect(output.value).toHaveLength(5);
@@ -75,16 +75,33 @@ describe('Find All Sold Ads - Use Case', () => {
     expect(inMemoryAdRepository.advertisements).toHaveLength(10);
   });
   it('should not be able to find all sold if user not found and returns a error (User not found)', async () => {
-    const output = await sut.execute({ userId: new UniqueEntityId(), referenceDate: new Date().getMonth() + 1 });
+    const output = await sut.execute({
+      userId: new UniqueEntityId(),
+      referenceDate: new Date().getMonth() + 1,
+      isManager: false,
+    });
 
     expect(output.isLeft()).toBe(true);
     expect(output.value).toBeInstanceOf(ResourceNotFoundError);
+  });
+  it('should not be able to find all sold if user is not manager and the search is for all ads (just manager) and returns a error (Not allowed)', async () => {
+    const user = makeFakeUser({ roles: [UserRoles.Seller] });
+    inMemoryUserRepository.register({ user });
+
+    const output = await sut.execute({
+      userId: user.id,
+      referenceDate: new Date().getMonth() + 1,
+      isManager: true,
+    });
+
+    expect(output.isLeft()).toBe(true);
+    expect(output.value).toBeInstanceOf(NotAllowedError);
   });
   it('should not be able to find all sold if user dont have seller role and returns a error (Not allowed)', async () => {
     const user = makeFakeUser({ roles: [UserRoles.Customer] });
     inMemoryUserRepository.register({ user });
 
-    const output = await sut.execute({ userId: user.id, referenceDate: new Date().getMonth() + 1 });
+    const output = await sut.execute({ userId: user.id, referenceDate: new Date().getMonth() + 1, isManager: false });
 
     expect(output.isLeft()).toBe(true);
     expect(output.value).toBeInstanceOf(NotAllowedError);
