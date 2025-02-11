@@ -10,8 +10,16 @@ import {
   FindAllProps,
   FindByUserIdProps,
   FindTotalCountByAdvertisementProps,
+  FindAdvertisementIsFavoritedProps,
 } from '@root/domain/application/repositories/favorite.repository';
-import { Capacity, Doors, Fuel, GearBox, SoldStatus } from '@root/domain/enterprise/entities/advertisement.entity';
+import {
+  Capacity,
+  Doors,
+  Fuel,
+  GearBox,
+  Model,
+  SoldStatus,
+} from '@root/domain/enterprise/entities/advertisement.entity';
 import { FavoriteEntity } from '@root/domain/enterprise/entities/favorite.entity';
 import { FavoriteAdminDetails } from '@root/domain/enterprise/value-object/favorite-admin-details';
 import { FavoriteDetails } from '@root/domain/enterprise/value-object/favorite-details';
@@ -121,8 +129,10 @@ export class PrismaFavoriteRepository implements FavoriteRepository {
               fuel: true,
               km: true,
               capacity: true,
+              model: true,
               title: true,
               price: true,
+              salePrice: true,
               thumbnailUrl: true,
               id: true,
               soldStatus: true,
@@ -148,10 +158,12 @@ export class PrismaFavoriteRepository implements FavoriteRepository {
         advertisement: {
           id: new UniqueEntityId(fav.advertisement.id),
           price: fav.advertisement.price,
+          salePrice: fav.advertisement.salePrice,
           thumbnailUrl: fav.advertisement.thumbnailUrl,
           blurHash: fav.advertisement.images[0].blurHash,
           title: fav.advertisement.title,
           doors: Doors[fav.advertisement.doors],
+          model: Model[fav.advertisement.model],
           capacity: Capacity[fav.advertisement.capacity],
           fuel: Fuel[fav.advertisement.fuel],
           gearBox: GearBox[fav.advertisement.gearBox],
@@ -202,6 +214,22 @@ export class PrismaFavoriteRepository implements FavoriteRepository {
     const totalCountFavoriteAds = await this.prismaService.favorite.count();
 
     return Maybe.some(totalCountFavoriteAds);
+  }
+
+  async findAdvertisementIsFavorited({
+    advertisementId,
+    userId,
+  }: FindAdvertisementIsFavoritedProps): AsyncMaybe<boolean> {
+    const favorite = await this.prismaService.favorite.findFirst({
+      where: {
+        advertisementId: advertisementId.toValue(),
+        userId: userId.toValue(),
+      },
+    });
+
+    if (!favorite) return Maybe.none();
+
+    return Maybe.some(true);
   }
 
   async findTotalCountByAdvertisement({ advertisementId }: FindTotalCountByAdvertisementProps): AsyncMaybe<number> {

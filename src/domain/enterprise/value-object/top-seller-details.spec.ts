@@ -1,5 +1,6 @@
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 
+import { UserRoles } from '../entities/user.entity';
 import { TopSellerDetails } from './top-seller-details';
 
 describe('Top Sellers Details - Value Object', () => {
@@ -8,6 +9,7 @@ describe('Top Sellers Details - Value Object', () => {
       amountSold: 10,
       id: new UniqueEntityId(),
       name: 'name test',
+      roles: [UserRoles.Seller],
       profileImg: 'url-test',
       quantitySold: 5,
     });
@@ -16,6 +18,7 @@ describe('Top Sellers Details - Value Object', () => {
     expect(output.amountSold).toEqual(10);
     expect(output.name).toEqual('name test');
     expect(output.profileImg).toEqual('url-test');
+    expect(output.roles).toEqual([UserRoles.Seller]);
     expect(output.quantitySold).toEqual(5);
   });
 });

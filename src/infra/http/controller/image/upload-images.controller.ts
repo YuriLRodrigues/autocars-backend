@@ -27,7 +27,7 @@ export class UploadImagesController {
   constructor(private readonly uploadImage: UploadImageUseCase) {}
 
   @SwaggerUploadImagesDto()
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(FilesInterceptor('files', 6))
   @Roles({ roles: [UserRoles.Manager, UserRoles.Customer, UserRoles.Seller], isAll: false })
   @Post('/upload')
   async handle(@CurrentUser() payload: UserPayload, @UploadedFiles() files: Array<Express.Multer.File>) {

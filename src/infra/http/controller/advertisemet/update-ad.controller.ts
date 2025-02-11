@@ -66,7 +66,7 @@ export class UpdateAdvertisementController {
   ) {
     const adUpdated = await this.updateAdUseCase.execute({
       id: new UniqueEntityId(id),
-      brandId: new UniqueEntityId(brandId),
+      brandId: brandId ? new UniqueEntityId(brandId) : undefined,
       capacity: capacity && Capacity[capacity],
       color: color && Color[color],
       description,
@@ -80,7 +80,7 @@ export class UpdateAdvertisementController {
       model: model && Model[model],
       phone,
       price: Number(price) || undefined,
-      thumbnailImageId: new UniqueEntityId(thumbnailImageId),
+      thumbnailImageId: thumbnailImageId ? new UniqueEntityId(thumbnailImageId) : undefined,
       title,
       userId: new UniqueEntityId(payload.sub),
       year,

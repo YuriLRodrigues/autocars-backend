@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsObject, IsString } from 'class-validator';
+import { IsDate, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 class AdvertisementDto {
   @ApiProperty({ description: 'Unique identifier of the advertisement' })
@@ -32,9 +32,16 @@ class UserDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ description: 'Avatar URL of the user' })
-  @IsString()
-  avatar: string;
+  @ApiProperty({
+    example: 'https://avatar-test.googleapis.com/',
+    description: 'The user avatar',
+    type: String,
+  })
+  @IsString({
+    message: 'This field must be a string',
+  })
+  @IsOptional()
+  avatar?: string;
 }
 
 export class FavoriteDetailsDto {

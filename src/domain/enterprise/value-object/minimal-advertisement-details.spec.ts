@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 
-import { Doors, Capacity, Fuel, GearBox } from '../entities/advertisement.entity';
+import { Doors, Capacity, Fuel, GearBox, SoldStatus, Model } from '../entities/advertisement.entity';
 import { MinimalAdvertisementDetails } from './minimal-advertisement-details';
 
 describe('Minimal Ad Details - Value Object', () => {
@@ -14,10 +14,14 @@ describe('Minimal Ad Details - Value Object', () => {
       },
       km: 1000,
       price: 100,
+      model: Model.SUV,
+      salePrice: 120,
+      likes: [],
       thumbnailUrl: 'url-test',
       blurHash: 'blur-hash',
       title: 'title test',
       capacity: Capacity.Five,
+      soldStatus: SoldStatus.Active,
       doors: Doors.Four,
       fuel: Fuel.Gasoline,
       gearBox: GearBox.Manual,
@@ -35,6 +39,10 @@ describe('Minimal Ad Details - Value Object', () => {
     expect(output.capacity).toEqual(Capacity.Five);
     expect(output.doors).toEqual(Doors.Four);
     expect(output.fuel).toEqual(Fuel.Gasoline);
+    expect(output.model).toEqual(Model.SUV);
+    expect(output.salePrice).toBe(120);
+    expect(output.likes).toEqual([]);
+    expect(output.soldStatus).toEqual(SoldStatus.Active);
     expect(output.gearBox).toEqual(GearBox.Manual);
   });
 });

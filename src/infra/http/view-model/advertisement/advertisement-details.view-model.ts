@@ -21,6 +21,7 @@ export class AdvertisementDetailsViewModel {
       capacity: entity.capacity,
       images: entity.images.map((image) => ({
         url: image.url,
+        blurHash: image.blurHash,
       })),
       brand: {
         id: entity.brand.brandId.toValue(),
@@ -30,6 +31,7 @@ export class AdvertisementDetailsViewModel {
       user: {
         id: entity.user.id.toValue(),
         name: entity.user.name,
+        avatar: entity.user.avatar ?? undefined,
         address: {
           street: entity.user.address.street,
           city: entity.user.address.city,

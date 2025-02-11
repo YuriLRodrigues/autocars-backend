@@ -8,13 +8,7 @@ import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
 import { AdvertisementRepository } from '../../repositories/advertisement.repository';
 import { UserRepository } from '../../repositories/user.repository';
 
-type Output = Either<
-  ResourceNotFoundError | NotAllowedError,
-  {
-    price: number;
-    updatedAt: Date;
-  }[]
->;
+type Output = Either<ResourceNotFoundError | NotAllowedError, { salePrice?: number; price: number; updatedAt: Date }[]>;
 
 type Input = {
   referenceDate: number;

@@ -42,6 +42,17 @@ class UserDto {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({
+    example: 'https://avatar-test.googleapis.com/',
+    description: 'The user avatar',
+    type: String,
+  })
+  @IsString({
+    message: 'This field must be a string',
+  })
+  @IsOptional()
+  avatar?: string;
+
   @ApiProperty({ example: 'e5a67153-d256-4721-b791-760fcd581c7b', description: 'The unique identifier of the user' })
   @IsString()
   @IsNotEmpty()
@@ -57,6 +68,14 @@ class ImageDto {
   @IsString()
   @IsNotEmpty()
   url: string;
+
+  @ApiProperty({
+    description: 'BlurHash for the image, used for low-quality image preview',
+    example: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+  })
+  @IsNotEmpty()
+  @IsString()
+  blurHash: string;
 }
 
 class BrandDto {

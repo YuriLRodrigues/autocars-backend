@@ -8,8 +8,16 @@ import {
   FindAllProps,
   FindByUserIdProps,
   FindTotalCountByAdvertisementProps,
+  FindAdvertisementIsFavoritedProps,
 } from '@root/domain/application/repositories/favorite.repository';
-import { Capacity, Doors, Fuel, GearBox, SoldStatus } from '@root/domain/enterprise/entities/advertisement.entity';
+import {
+  Capacity,
+  Doors,
+  Fuel,
+  GearBox,
+  Model,
+  SoldStatus,
+} from '@root/domain/enterprise/entities/advertisement.entity';
 import { FavoriteEntity } from '@root/domain/enterprise/entities/favorite.entity';
 import { FavoriteAdminDetails } from '@root/domain/enterprise/value-object/favorite-admin-details';
 import { FavoriteDetails } from '@root/domain/enterprise/value-object/favorite-details';
@@ -115,6 +123,7 @@ export class InMemoryFavoriteRepository implements FavoriteRepository {
           blurHash: adThumbnail.blurHash,
           title: advertisement.title,
           soldStatus: SoldStatus[advertisement.soldStatus],
+          model: Model[advertisement.model],
         },
         id: fav.id,
       });
@@ -149,6 +158,19 @@ export class InMemoryFavoriteRepository implements FavoriteRepository {
     ).length;
 
     return Maybe.some(distinctFavoritesCount);
+  }
+
+  async findAdvertisementIsFavorited({
+    advertisementId,
+    userId,
+  }: FindAdvertisementIsFavoritedProps): AsyncMaybe<boolean> {
+    const favorite = this.favorites.find(
+      (fav) => fav.advertisementId.toValue() === advertisementId.toValue() && fav.userId.toValue() === userId.toValue(),
+    );
+
+    if (!favorite) return Maybe.none();
+
+    return Maybe.some(true);
   }
 
   async findTotalCount(): AsyncMaybe<number> {

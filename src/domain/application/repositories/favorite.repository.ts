@@ -25,6 +25,11 @@ export type FindByUserIdProps = {
   advertisementId: UniqueEntityId;
 };
 
+export type FindAdvertisementIsFavoritedProps = {
+  userId: UniqueEntityId;
+  advertisementId: UniqueEntityId;
+};
+
 export type DeleteProps = {
   userId: UniqueEntityId;
   favoriteId: UniqueEntityId;
@@ -46,5 +51,9 @@ export abstract class FavoriteRepository {
   abstract findTotalCount(): AsyncMaybe<number>;
   abstract findTotalCountByAdvertisement({ advertisementId }: FindTotalCountByAdvertisementProps): AsyncMaybe<number>;
   abstract findByUserId({ advertisementId, userId }: FindByUserIdProps): AsyncMaybe<FavoriteEntity>;
+  abstract findAdvertisementIsFavorited({
+    advertisementId,
+    userId,
+  }: FindAdvertisementIsFavoritedProps): AsyncMaybe<boolean>;
   abstract delete({ userId, favoriteId }: DeleteProps): AsyncMaybe<void>;
 }

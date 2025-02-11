@@ -13,15 +13,7 @@ import {
   FindMetricsByUserId,
   SaveAdProps,
 } from '@root/domain/application/repositories/advertisement.repository';
-import {
-  AdvertisementEntity,
-  Capacity,
-  Color,
-  Doors,
-  Fuel,
-  GearBox,
-  Model,
-} from '@root/domain/enterprise/entities/advertisement.entity';
+import { AdvertisementEntity } from '@root/domain/enterprise/entities/advertisement.entity';
 import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
 import { AdvertisementDetails } from '@root/domain/enterprise/value-object/advertisement-details';
 import { ManagerAdvertisements } from '@root/domain/enterprise/value-object/manager-advertisements';
@@ -279,11 +271,14 @@ export class InMemoryAdvertisementRepository implements AdvertisementRepository 
         advertisementId: ad.id,
         title: ad.title,
         price: ad.price,
+        salePrice: ad.salePrice,
         km: ad.km,
         capacity: ad.capacity,
         doors: ad.doors,
         fuel: ad.fuel,
         gearBox: ad.gearBox,
+        model: ad.model,
+        soldStatus: ad.soldStatus,
         brand: {
           brandId: brand.id,
           logoUrl: brand.logoUrl,
@@ -318,12 +313,12 @@ export class InMemoryAdvertisementRepository implements AdvertisementRepository 
         title: ad.title,
         price: ad.price,
         km: ad.km,
-        capacity: Capacity[ad.capacity],
-        doors: Doors[ad.doors],
-        fuel: Fuel[ad.fuel],
-        gearBox: GearBox[ad.gearBox],
-        color: Color[ad.color],
-        model: Model[ad.model],
+        capacity: ad.capacity,
+        doors: ad.doors,
+        fuel: ad.fuel,
+        gearBox: ad.gearBox,
+        color: ad.color,
+        model: ad.model,
         soldStatus: ad.soldStatus,
         salePrice: ad.salePrice,
         year: ad.year,
@@ -366,12 +361,12 @@ export class InMemoryAdvertisementRepository implements AdvertisementRepository 
       title: ad.title,
       price: ad.price,
       km: ad.km,
-      capacity: Capacity[ad.capacity],
-      doors: Doors[ad.doors],
-      fuel: Fuel[ad.fuel],
-      gearBox: GearBox[ad.gearBox],
-      color: Color[ad.color],
-      model: Model[ad.model],
+      capacity: ad.capacity,
+      doors: ad.doors,
+      fuel: ad.fuel,
+      gearBox: ad.gearBox,
+      color: ad.color,
+      model: ad.model,
       soldStatus: ad.soldStatus,
       salePrice: ad.salePrice,
       year: ad.year,
@@ -469,6 +464,7 @@ export class InMemoryAdvertisementRepository implements AdvertisementRepository 
 
   async findAllSoldAds({ referenceDate, userId }: FindAllSoldAds): AsyncMaybe<
     {
+      salePrice?: number;
       price: number;
       updatedAt: Date;
     }[]
@@ -480,6 +476,7 @@ export class InMemoryAdvertisementRepository implements AdvertisementRepository 
     const mappedAds = filteredAds.map((ad) => {
       return {
         price: ad.salePrice || ad.price,
+        salePrice: ad.salePrice,
         updatedAt: ad.updatedAt,
       };
     });

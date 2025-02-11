@@ -79,7 +79,7 @@ export class AdvertisementMappers {
         },
       },
       year: data.year,
-      details: data.details || [],
+      details: data.details,
       salePrice: data.salePrice || undefined,
       updatedAt: data.updatedAt,
       soldStatus: SoldStatusPrisma[data.soldStatus],

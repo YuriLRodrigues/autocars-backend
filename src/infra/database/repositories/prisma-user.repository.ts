@@ -165,6 +165,7 @@ export class PrismaUserRepository implements UserRepository {
           where: { soldStatus: SoldStatus.Sold },
           select: {
             price: true,
+            salePrice: true,
           },
         },
         _count: {
@@ -184,7 +185,7 @@ export class PrismaUserRepository implements UserRepository {
 
     const mappedTopSellers = sellers
       .map((seller) => {
-        const totalAmountSold = seller.advertisement.reduce((sum, ad) => sum + ad.price, 0);
+        const totalAmountSold = seller.advertisement.reduce((sum, ad) => sum + (ad.salePrice ?? ad.price), 0);
 
         return TopSellerDetails.create({
           id: new UniqueEntityId(seller.id),

@@ -141,6 +141,7 @@ export abstract class AdvertisementRepository {
 
   abstract findAllSoldAds({ referenceDate, userId, isManager }: FindAllSoldAds): AsyncMaybe<
     {
+      salePrice?: number;
       price: number;
       updatedAt: Date;
     }[]

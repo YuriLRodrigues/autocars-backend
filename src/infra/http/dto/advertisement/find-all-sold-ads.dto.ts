@@ -15,6 +15,16 @@ import { SwaggerBadRequestDto, SwaggerResourceNotFoundDto } from '../swagger.dto
 class SoldAds {
   @ApiProperty({
     type: Number,
+    description: 'Sale price of ad',
+    example: 10,
+    required: false,
+  })
+  @IsNumber()
+  @IsOptional()
+  salePrice?: number;
+
+  @ApiProperty({
+    type: Number,
     description: 'Price of ad',
     example: 10,
     required: true,

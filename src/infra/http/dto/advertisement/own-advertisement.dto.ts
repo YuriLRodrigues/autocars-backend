@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SoldStatus } from '@root/domain/enterprise/entities/advertisement.entity';
-import { IsString, IsUrl, IsNumber, IsOptional, IsEnum, IsDate, Length, IsNotEmpty } from 'class-validator';
+import { IsString, IsUrl, IsNumber, IsOptional, IsEnum, IsDate, IsNotEmpty } from 'class-validator';
 
 export class OwnAdvertisementBrandDto {
   @ApiProperty({
@@ -68,7 +68,6 @@ export class OwnAdvertisementsDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Length(5, 255)
   blurHash: string;
 
   @ApiProperty({

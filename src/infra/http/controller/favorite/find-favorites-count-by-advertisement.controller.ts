@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Get, HttpStatus, NotFoundException, Pa
 import { ApiTags } from '@nestjs/swagger';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ResourceNotFoundError } from '@root/core/errors/resource-not-found-error';
-import { FindFavoritesCountByAdvertisementUseCase } from '@root/domain/application/use-cases/favorite/find-favorites-count-by-advertisement';
+import { FindFavoritesCountByAdvertisementUseCase } from '@root/domain/application/use-cases/favorite/find-favorites-count-by-advertisement.use-case';
 import { Public } from '@root/infra/auth/public';
 
 import { SwaggerFindFavoritesCountByAdvertisementDto } from '../../dto/favorite/find-favorites-count-by-advertisement.dto';

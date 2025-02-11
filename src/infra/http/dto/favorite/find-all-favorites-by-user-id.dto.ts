@@ -1,9 +1,16 @@
 import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiProperty } from '@nestjs/swagger';
-import { Capacity, Doors, Fuel, GearBox, SoldStatus } from '@root/domain/enterprise/entities/advertisement.entity';
-import { IsString, IsNumber, IsNotEmpty, IsUrl, Length } from 'class-validator';
+import {
+  Capacity,
+  Doors,
+  Fuel,
+  GearBox,
+  Model,
+  SoldStatus,
+} from '@root/domain/enterprise/entities/advertisement.entity';
+import { IsString, IsNumber, IsNotEmpty, IsUrl, IsEnum, IsOptional } from 'class-validator';
 
-import { ApiPaginatedResponse } from '../../dto/pagination.dto';
-import { SwaggerBadRequestDto, SwaggerResourceNotFoundDto } from '../../dto/swagger.dto';
+import { ApiPaginatedResponse } from '../pagination.dto';
+import { SwaggerBadRequestDto, SwaggerResourceNotFoundDto } from '../swagger.dto';
 
 class FavoritesAdvertisementDto {
   @ApiProperty({
@@ -30,13 +37,17 @@ class FavoritesAdvertisementDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Length(5, 255)
   blurHash: string;
 
   @ApiProperty({ description: 'Price of the advertisement', example: 85000 })
   @IsNotEmpty()
   @IsNumber()
   price: number;
+
+  @ApiProperty({ description: 'Sale price of the advertisement', example: 85000 })
+  @IsOptional()
+  @IsNumber()
+  salePrice?: number;
 
   @ApiProperty({ description: 'Kilometers driven', example: 15000 })
   @IsNotEmpty()
@@ -45,28 +56,33 @@ class FavoritesAdvertisementDto {
 
   @ApiProperty({ example: Doors.Four, description: 'Number of doors' })
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(Doors)
   doors: string;
 
   @ApiProperty({ example: GearBox.Automatic, description: 'Gearbox type' })
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(GearBox)
   gearBox: string;
 
   @ApiProperty({ example: Fuel.Flex, description: 'Fuel type' })
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(Fuel)
   fuel: string;
 
   @ApiProperty({ example: Capacity.Five, description: 'Vehicle capacity' })
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(Capacity)
   capacity: string;
 
   @ApiProperty({ example: SoldStatus.Reserved, description: 'Status of the advertisement' })
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(SoldStatus)
   soldStatus: string;
+
+  @ApiProperty({ example: Model.Sedan, description: 'Model of the advertisement' })
+  @IsNotEmpty()
+  @IsEnum(Model)
+  model: string;
 }
 
 export class FindAllFavoritesByUserIdResponseDto {

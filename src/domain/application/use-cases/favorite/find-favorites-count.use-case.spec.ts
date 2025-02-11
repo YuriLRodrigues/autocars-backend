@@ -9,10 +9,10 @@ import { InMemoryImageRepository } from 'test/repositories/in-memory-image-repos
 import { InMemoryLikeAdvertisementRepository } from 'test/repositories/in-memory-like-advertisement-repository';
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository';
 
-import { FindDistinctFavoritesCountUseCase } from './find-distinct-favorites-count';
+import { FindFavoritesCountUseCase } from './find-favorites-count.use-case';
 
 describe('Find Favorites Count - Use Case', () => {
-  let sut: FindDistinctFavoritesCountUseCase;
+  let sut: FindFavoritesCountUseCase;
   let inMemoryAdvertisementRepository: InMemoryAdvertisementRepository;
   let inMemoryLikeAdvertisementRepository: InMemoryLikeAdvertisementRepository;
   let inMemoryFavoriteRepository: InMemoryFavoriteRepository;
@@ -22,8 +22,8 @@ describe('Find Favorites Count - Use Case', () => {
   let inMemoryAddressRepository: InMemoryAddressRepository;
 
   beforeEach(() => {
-    inMemoryImageRepository = new InMemoryImageRepository();
     inMemoryAddressRepository = new InMemoryAddressRepository();
+    inMemoryImageRepository = new InMemoryImageRepository();
     inMemoryUserRepository = new InMemoryUserRepository(inMemoryAdvertisementRepository);
     inMemoryBrandRepository = new InMemoryBrandRepository();
     inMemoryLikeAdvertisementRepository = new InMemoryLikeAdvertisementRepository();
@@ -39,10 +39,10 @@ describe('Find Favorites Count - Use Case', () => {
       inMemoryUserRepository,
       inMemoryImageRepository,
     );
-    sut = new FindDistinctFavoritesCountUseCase(inMemoryFavoriteRepository);
+    sut = new FindFavoritesCountUseCase(inMemoryFavoriteRepository);
   });
 
-  it('should be able to find total count of distinct favorites', async () => {
+  it('should be able to find total count of favorites', async () => {
     const advertisement = makeFakeAdvertisement();
     inMemoryAdvertisementRepository.createAd({ advertisement });
 
@@ -56,7 +56,7 @@ describe('Find Favorites Count - Use Case', () => {
     const output = await sut.execute();
 
     expect(output.isRight()).toBe(true);
-    expect(output.value).toEqual(1);
+    expect(output.value).toEqual(10);
     expect(inMemoryFavoriteRepository.favorites).toHaveLength(10);
   });
 });

@@ -1,7 +1,7 @@
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ValueObject } from '@root/core/domain/value-object/value-object';
 
-import { Capacity, Doors, Fuel, GearBox } from '../entities/advertisement.entity';
+import { Capacity, Doors, Fuel, GearBox, Model, SoldStatus } from '../entities/advertisement.entity';
 import { LikeEntity } from '../entities/like.entity';
 
 export type MinimalAdvertisementDetailsProps = {
@@ -12,11 +12,14 @@ export type MinimalAdvertisementDetailsProps = {
   };
   km: number;
   price: number;
+  salePrice?: number;
   title: string;
   advertisementId: UniqueEntityId;
   thumbnailUrl: string;
   blurHash: string;
   capacity: Capacity;
+  soldStatus: SoldStatus;
+  model: Model;
   doors: Doors;
   fuel: Fuel;
   gearBox: GearBox;
@@ -44,6 +47,14 @@ export class MinimalAdvertisementDetails extends ValueObject<MinimalAdvertisemen
     return this.props.gearBox;
   }
 
+  get soldStatus() {
+    return this.props.soldStatus;
+  }
+
+  get model() {
+    return this.props.model;
+  }
+
   get thumbnailUrl() {
     return this.props.thumbnailUrl;
   }
@@ -68,6 +79,10 @@ export class MinimalAdvertisementDetails extends ValueObject<MinimalAdvertisemen
     return this.props.price;
   }
 
+  get salePrice() {
+    return this.props.salePrice;
+  }
+
   get likes() {
     return this.props.likes;
   }
@@ -77,10 +92,14 @@ export class MinimalAdvertisementDetails extends ValueObject<MinimalAdvertisemen
       advertisementId: props.advertisementId,
       title: props.title,
       price: props.price,
+      salePrice: props.salePrice,
       km: props.km,
       capacity: props.capacity,
       doors: props.doors,
       fuel: props.fuel,
+      model: props.model,
+      soldStatus: props.soldStatus,
+      likes: props.likes,
       gearBox: props.gearBox,
       brand: {
         brandId: props.brand.brandId,

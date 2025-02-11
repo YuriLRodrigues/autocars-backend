@@ -1,6 +1,6 @@
 import { BadRequestException, Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { FindDistinctFavoritesCountUseCase } from '@root/domain/application/use-cases/favorite/find-distinct-favorites-count';
+import { FindDistinctFavoritesCountUseCase } from '@root/domain/application/use-cases/favorite/find-distinct-favorites-count.use-case';
 import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
 import { Roles } from '@root/infra/auth/roles';
 

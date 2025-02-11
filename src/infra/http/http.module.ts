@@ -23,6 +23,7 @@ import { CreateBrandController } from './controller/brand/create-brand.controlle
 import { DeleteBrandController } from './controller/brand/delete-brand.controller';
 import { FindAllBrandsController } from './controller/brand/find-all-brands.controller';
 import { UpdateBrandController } from './controller/brand/update-brand.controller';
+import { FindAdvertisementIsFavoritedController } from './controller/favorite/find-advertisement-is-favorited.controller';
 import { FindAllFavoritesByUserIdController } from './controller/favorite/find-all-favorites-by-user-id.controller';
 import { FindAllFavoritesController } from './controller/favorite/find-all-favorites.controller';
 import { FindDistinctFavoritesCountController } from './controller/favorite/find-distinct-favorites-count.controller';
@@ -110,6 +111,7 @@ import { UpdateOwnUserController } from './controller/user/update-own-user.contr
     FindDistinctFavoritesCountController,
     FindFavoritesCountByAdvertisementController,
     FindFavoritesCountController,
+    FindAdvertisementIsFavoritedController,
     HandleFavoriteController,
   ],
 })

@@ -11,7 +11,7 @@ import { InMemoryImageRepository } from 'test/repositories/in-memory-image-repos
 import { InMemoryLikeAdvertisementRepository } from 'test/repositories/in-memory-like-advertisement-repository';
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository';
 
-import { FindFavoritesCountByAdvertisementUseCase } from './find-favorites-count-by-advertisement';
+import { FindFavoritesCountByAdvertisementUseCase } from './find-favorites-count-by-advertisement.use-case';
 
 describe('Find Favorites Count By Advertisement - Use Case', () => {
   let sut: FindFavoritesCountByAdvertisementUseCase;

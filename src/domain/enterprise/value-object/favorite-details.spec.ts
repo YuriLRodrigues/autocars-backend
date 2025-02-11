@@ -1,6 +1,6 @@
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 
-import { Capacity, Doors, Fuel, GearBox, SoldStatus } from '../entities/advertisement.entity';
+import { Capacity, Doors, Fuel, GearBox, Model, SoldStatus } from '../entities/advertisement.entity';
 import { FavoriteDetails } from './favorite-details';
 
 describe('Favorite Details - Value Object', () => {
@@ -14,6 +14,7 @@ describe('Favorite Details - Value Object', () => {
         blurHash: 'blur-hash',
         title: 'new title',
         capacity: Capacity.Two,
+        model: Model.Pickups,
         doors: Doors.Four,
         fuel: Fuel.Gasoline,
         gearBox: GearBox.Manual,
@@ -29,6 +30,7 @@ describe('Favorite Details - Value Object', () => {
     expect(output.advertisement.title).toEqual('new title');
     expect(output.advertisement.blurHash).toEqual('blur-hash');
     expect(output.advertisement.capacity).toEqual(Capacity.Two);
+    expect(output.advertisement.model).toEqual(Model.Pickups);
     expect(output.advertisement.doors).toEqual(Doors.Four);
     expect(output.advertisement.fuel).toEqual(Fuel.Gasoline);
     expect(output.advertisement.gearBox).toEqual(GearBox.Manual);

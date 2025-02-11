@@ -23,6 +23,7 @@ type AdvertisementDetailsProps = {
   capacity: Capacity;
   images: Array<{
     url: string;
+    blurHash: string;
   }>;
   brand: {
     brandId: UniqueEntityId;
@@ -32,6 +33,7 @@ type AdvertisementDetailsProps = {
   user: {
     name: string;
     id: UniqueEntityId;
+    avatar?: string;
     address: {
       street: string;
       city: string;

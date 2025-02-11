@@ -3,8 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ResourceNotFoundError } from '@root/core/errors/resource-not-found-error';
 import { FindAdByIdUseCase } from '@root/domain/application/use-cases/advertisement/find-ad-by-id.use-case';
-import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
-import { Roles } from '@root/infra/auth/roles';
+import { Public } from '@root/infra/auth/public';
 
 import { SwaggerFindAdByIdDto } from '../../dto/advertisement/find-ad-by-id.dto';
 import { AdvertisementDetailsViewModel } from '../../view-model/advertisement/advertisement-details.view-model';
@@ -15,7 +14,7 @@ export class FindAdvertisementByIdController {
   constructor(private readonly findAdByIdUseCase: FindAdByIdUseCase) {}
 
   @SwaggerFindAdByIdDto()
-  @Roles({ roles: [UserRoles.Seller, UserRoles.Manager, UserRoles.Customer], isAll: false })
+  @Public()
   @Get('/details/:id')
   async handle(@Param('id') id: string) {
     const advertisement = await this.findAdByIdUseCase.execute({

@@ -96,11 +96,7 @@ export class PrismaImageRepository implements ImageRepository {
     const thumbnail = await this.prismaService.image.findFirst({
       where: {
         advertisementId: advertisementId.toValue(),
-        advertisementImages: {
-          thumbnailUrl: {
-            not: null,
-          },
-        },
+        isThumbnail: true,
       },
     });
 

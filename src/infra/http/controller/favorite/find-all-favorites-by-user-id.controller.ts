@@ -8,9 +8,9 @@ import { UserPayload } from '@root/infra/auth/auth-user';
 import { CurrentUser } from '@root/infra/auth/current-user';
 import { Roles } from '@root/infra/auth/roles';
 
+import { SwaggerFindAllFavoritesByUserIdDto } from '../../dto/favorite/find-all-favorites-by-user-id.dto';
 import { PaginationDto } from '../../dto/pagination.dto';
 import { FavoriteDetailsViewModel } from '../../view-model/favorite/favorite-details.view-model';
-import { SwaggerFindAllFavoritesByUserIdDto } from './find-all-favorites-by-user-id.dto';
 
 @ApiTags('Favorite - Controller')
 @Controller('/favorite')

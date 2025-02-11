@@ -37,10 +37,8 @@ export class UserDto {
   @IsString({
     message: 'This field must be a string',
   })
-  @IsNotEmpty({
-    message: 'The avatar field is required',
-  })
-  avatar: string;
+  @IsOptional()
+  avatar?: string;
 
   @ApiProperty({
     example: 'user@example.com',

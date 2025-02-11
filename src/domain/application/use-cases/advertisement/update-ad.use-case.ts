@@ -85,17 +85,13 @@ export class UpdateAdUseCase {
       id: userId,
     });
 
-    if (userNotExists()) {
-      return left(new ResourceNotFoundError());
-    }
+    if (userNotExists()) return left(new ResourceNotFoundError());
 
     const { isNone: adNotFound, value: advertisement } = await this.advertisementRepository.findAdById({
       id,
     });
 
-    if (adNotFound()) {
-      return left(new ResourceNotFoundError());
-    }
+    if (adNotFound()) return left(new ResourceNotFoundError());
 
     if (
       (user.roles.includes(UserRoles.Seller) && advertisement.userId !== user.id) ||

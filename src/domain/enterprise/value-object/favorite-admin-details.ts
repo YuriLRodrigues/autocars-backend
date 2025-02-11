@@ -16,7 +16,7 @@ export type FavoriteAdminDetailsProps = {
   user: {
     id: UniqueEntityId;
     name: string;
-    avatar: string;
+    avatar?: string;
   };
   favoritesCount: number;
   createdAt: Date;

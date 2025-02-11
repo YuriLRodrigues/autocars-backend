@@ -2,7 +2,7 @@ import { SoldStatus } from '@prisma/client';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ValueObject } from '@root/core/domain/value-object/value-object';
 
-import { Capacity, Doors, Fuel, GearBox } from '../entities/advertisement.entity';
+import { Capacity, Doors, Fuel, GearBox, Model } from '../entities/advertisement.entity';
 
 export type FavoriteDetailsProps = {
   id: UniqueEntityId;
@@ -12,12 +12,14 @@ export type FavoriteDetailsProps = {
     thumbnailUrl: string;
     blurHash: string;
     price: number;
+    salePrice?: number;
     km: number;
     doors: Doors;
     gearBox: GearBox;
     fuel: Fuel;
     capacity: Capacity;
     soldStatus: SoldStatus;
+    model: Model;
   };
 };
 
@@ -36,11 +38,13 @@ export class FavoriteDetails extends ValueObject<FavoriteDetailsProps> {
       advertisement: {
         id: props.advertisement.id,
         price: props.advertisement.price,
+        salePrice: props.advertisement.salePrice,
         thumbnailUrl: props.advertisement.thumbnailUrl,
         blurHash: props.advertisement.blurHash,
         title: props.advertisement.title,
         doors: props.advertisement.doors,
         capacity: props.advertisement.capacity,
+        model: props.advertisement.model,
         fuel: props.advertisement.fuel,
         gearBox: props.advertisement.gearBox,
         km: props.advertisement.km,

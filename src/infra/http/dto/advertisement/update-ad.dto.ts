@@ -26,6 +26,7 @@ export class UpdateAdDTO {
   @ApiProperty({
     example: ['e5a67153-d256-4721-b791-760fcd581c7b', 'ea34fd256-4721-b791'],
     description: 'The IDs of the advertisement images',
+    required: false,
   })
   @IsArray()
   @IsOptional()
@@ -34,6 +35,7 @@ export class UpdateAdDTO {
   @ApiProperty({
     example: ['e5a67153-d256-4721-b791-760fcd581c7b', 'ea34fd256-4721-b791'],
     description: 'The IDs of the advertisement images',
+    required: false,
   })
   @IsArray()
   @IsOptional()

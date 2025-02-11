@@ -424,11 +424,12 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
 
   async findAllSoldAds({ referenceDate, userId, isManager }: FindAllSoldAds): AsyncMaybe<
     {
+      salePrice?: number;
       price: number;
       updatedAt: Date;
     }[]
   > {
-    const date = dayjs(`${dayjs().year()}-${referenceDate - 1}-01`);
+    const date = dayjs(`${dayjs().year()}-${referenceDate}-01`);
     const monthStart = date.startOf('month').toDate();
     const monthEnd = date.endOf('month').toDate();
 
@@ -436,7 +437,7 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
       where: {
         userId: !isManager ? userId.toValue() : undefined,
         soldStatus: SoldStatus.Sold,
-        createdAt: {
+        updatedAt: {
           gte: monthStart,
           lt: monthEnd,
         },
@@ -444,9 +445,10 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
       select: {
         updatedAt: true,
         price: true,
+        salePrice: true,
       },
       orderBy: {
-        updatedAt: 'desc',
+        updatedAt: 'asc',
       },
       take: 6,
     });
@@ -527,11 +529,14 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
           },
           km: true,
           price: true,
+          salePrice: true,
           title: true,
           capacity: true,
           doors: true,
           fuel: true,
           gearBox: true,
+          model: true,
+          soldStatus: true,
           id: true,
           thumbnailUrl: true,
           images: {
@@ -551,11 +556,14 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
         advertisementId: new UniqueEntityId(ad.id),
         title: ad.title,
         price: ad.price,
+        salePrice: ad.salePrice,
         km: ad.km,
         capacity: Capacity[ad.capacity],
         doors: Doors[ad.doors],
         fuel: Fuel[ad.fuel],
         gearBox: GearBox[ad.gearBox],
+        soldStatus: SoldStatus[ad.soldStatus],
+        model: Model[ad.model],
         thumbnailUrl: ad.thumbnailUrl,
         blurHash: ad.images[0].blurHash,
         brand: {
@@ -636,6 +644,7 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
           select: {
             id: true,
             name: true,
+            avatar: true,
             address: {
               select: {
                 city: true,
@@ -648,6 +657,7 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
         images: {
           select: {
             url: true,
+            blurHash: true,
           },
         },
         createdAt: true,
@@ -684,6 +694,7 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
       user: {
         id: new UniqueEntityId(ad.user.id),
         name: ad.user.name,
+        avatar: ad.user.avatar,
         address: {
           city: ad.user.address.city,
           street: ad.user.address.street,

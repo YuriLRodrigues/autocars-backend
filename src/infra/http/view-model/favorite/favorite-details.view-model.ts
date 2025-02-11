@@ -10,12 +10,14 @@ export class FavoriteDetailsViewModel {
         thumbnailUrl: favoriteDetails.advertisement.thumbnailUrl,
         blurHash: favoriteDetails.advertisement.blurHash,
         price: favoriteDetails.advertisement.price,
+        salePrice: favoriteDetails.advertisement.salePrice,
         km: favoriteDetails.advertisement.km,
         doors: favoriteDetails.advertisement.doors,
         gearBox: favoriteDetails.advertisement.gearBox,
         fuel: favoriteDetails.advertisement.fuel,
         capacity: favoriteDetails.advertisement.capacity,
         soldStatus: favoriteDetails.advertisement.soldStatus,
+        model: favoriteDetails.advertisement.model,
       },
     };
   }
