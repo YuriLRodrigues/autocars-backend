@@ -6,6 +6,7 @@
     "paths": {
       "@root/*": ["./src/*"]
     },
+    "outDir": "./dist",
     "types": ["vitest/globals", "node", "multer"]
   }
 }
