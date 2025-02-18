@@ -2,7 +2,6 @@ FROM node:20-alpine AS builder
 WORKDIR /build
 COPY package.json ./
 COPY package-lock.json ./
-COPY .npmrc ./
 RUN npm ci --omit=dev --ignore-scripts
 
 FROM node:20-alpine AS compiler
@@ -17,4 +16,4 @@ WORKDIR $APP_HOME
 COPY --chown=node:node --from=builder /build $APP_HOME
 COPY --chown=node:node --from=compiler /dist/dist $APP_HOME/dist
 USER node
-CMD npm run prod
+CMD npm run star:prod
