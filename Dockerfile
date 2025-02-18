@@ -9,10 +9,10 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
 ARG VERSION="docker-nidoran"
-
 RUN npm run build
 
 FROM node:20-alpine AS deploy
+RUN apk add --no-cache openssl1.1-compat
 WORKDIR /app
 RUN apt-get update -y 
 ENV NODE_ENV production
