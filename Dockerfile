@@ -18,4 +18,4 @@ WORKDIR $APP_HOME
 COPY --chown=node:node --from=builder /build $APP_HOME
 COPY --chown=node:node --from=compiler /dist/dist $APP_HOME/dist
 USER node
-CMD npm run star:prod
+CMD npm run start:prod
