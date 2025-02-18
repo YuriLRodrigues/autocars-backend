@@ -14,7 +14,6 @@ import {
 } from '@root/domain/enterprise/entities/advertisement.entity';
 import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
 
-import { AdvertisementThumbnailRepository } from '../../repositories/advertisement-thumbnail.repository';
 import { AdvertisementRepository } from '../../repositories/advertisement.repository';
 import { ImageRepository } from '../../repositories/image.repository';
 import { UserRepository } from '../../repositories/user.repository';
@@ -53,7 +52,6 @@ export class UpdateAdUseCase {
     private readonly advertisementRepository: AdvertisementRepository,
     private readonly imageRepository: ImageRepository,
     private readonly userRepository: UserRepository,
-    private readonly advertisementThumbnailRepository: AdvertisementThumbnailRepository,
   ) {}
 
   async execute({
@@ -123,14 +121,26 @@ export class UpdateAdUseCase {
 
       if (thumbnailNotExists()) return left(new ResourceNotFoundError());
 
+      thumbnailImage.editInfo({
+        isThumbnail: true,
+        advertisementId: advertisement.id,
+      });
+
       advertisement.editInfo({
         thumbnailUrl: thumbnailImage.url,
       });
-    }
 
-    const { value: oldImageThumbnail } = await this.imageRepository.findThumbnail({
-      advertisementId: advertisement.id,
-    });
+      const { value: oldImageThumbnail } = await this.imageRepository.findThumbnail({
+        advertisementId: advertisement.id,
+      });
+
+      oldImageThumbnail.isThumbnail = false;
+
+      await Promise.all([
+        this.imageRepository.save({ image: oldImageThumbnail }),
+        this.imageRepository.save({ image: thumbnailImage }),
+      ]);
+    }
 
     advertisement.editInfo({
       brandId,
@@ -155,7 +165,6 @@ export class UpdateAdUseCase {
 
     Promise.all([
       await this.advertisementRepository.saveAd({ advertisement }),
-      thumbnailImageId && (await this.imageRepository.delete({ imageId: oldImageThumbnail.id })),
       removedImagesIds &&
         this.imageRepository.deleteMany({ imagesIds: removedImagesIds.map((id) => new UniqueEntityId(id)) }),
     ]);

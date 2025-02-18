@@ -22,6 +22,8 @@ export class AdvertisementDetailsViewModel {
       images: entity.images.map((image) => ({
         url: image.url,
         blurHash: image.blurHash,
+        id: image.id.toValue(),
+        isThumbnail: image.isThumbnail,
       })),
       brand: {
         id: entity.brand.brandId.toValue(),

@@ -26,6 +26,13 @@ export class ImageMappers {
       isThumbnail: data.isThumbnail,
       isAvatar: data.isAvatar,
       id: data.id.toValue(),
+      advertisementImages: data.advertisementId
+        ? {
+            connect: {
+              id: data.advertisementId.toValue(),
+            },
+          }
+        : undefined,
       user: {
         connect: {
           id: data.userId.toValue(),

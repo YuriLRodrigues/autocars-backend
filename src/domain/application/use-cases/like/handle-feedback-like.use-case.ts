@@ -24,7 +24,7 @@ export class HandleFeedbackLikeUseCase {
   ) {}
 
   async execute({ feedbackId, userId }: Input): Promise<Output> {
-    const { isNone: feedbackNotExists } = await this.feedbackRepository.findById({ feedbackId });
+    const { isNone: feedbackNotExists, value: feedback } = await this.feedbackRepository.findById({ feedbackId });
 
     if (feedbackNotExists()) {
       return left(new ResourceNotFoundError());
@@ -50,6 +50,7 @@ export class HandleFeedbackLikeUseCase {
     const likeEntity = LikeEntity.create({
       userId,
       feedbackId,
+      advertisementId: feedback.advertisementId,
     });
 
     await this.likeFeedbackRepository.create({ like: likeEntity });

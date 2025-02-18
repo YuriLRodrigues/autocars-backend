@@ -2,35 +2,36 @@ import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ValueObject } from '@root/core/domain/value-object/value-object';
 import { Optional } from '@root/core/logic/Optional';
 
-import { LikeEntity } from '../entities/like.entity';
-
 type FeedbackDetailsProps = {
-  likes: LikeEntity[];
-  feedbackId: UniqueEntityId;
+  id: UniqueEntityId;
   user: {
-    userId: UniqueEntityId;
+    id: UniqueEntityId;
+    avatar?: string;
+    blurHash?: string;
     name: string;
   };
   createdAt: Date;
   stars: number;
+  title: string;
   comment: string;
+  totalLikes: number;
 };
 
 export class FeedbackDetails extends ValueObject<FeedbackDetailsProps> {
-  get likes() {
-    return this.props.likes;
+  get totalLikes() {
+    return this.props.totalLikes;
   }
 
-  get feedbackId() {
-    return this.props.feedbackId;
+  get id() {
+    return this.props.id;
   }
 
-  get userId() {
-    return this.props.user.userId;
+  get user() {
+    return this.props.user;
   }
 
-  get userName() {
-    return this.props.user.name;
+  get title() {
+    return this.props.title;
   }
 
   get createdAt() {
@@ -45,13 +46,14 @@ export class FeedbackDetails extends ValueObject<FeedbackDetailsProps> {
     return this.props.comment;
   }
 
-  static create({ comment, feedbackId, likes, stars, user }: Optional<FeedbackDetailsProps, 'createdAt'>) {
+  static create({ comment, id, totalLikes, stars, user, title }: Optional<FeedbackDetailsProps, 'createdAt'>) {
     return new FeedbackDetails({
       comment,
       createdAt: new Date(),
-      feedbackId,
+      id,
       user,
-      likes,
+      title,
+      totalLikes,
       stars,
     });
   }

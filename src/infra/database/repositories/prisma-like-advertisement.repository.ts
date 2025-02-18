@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { AsyncMaybe, Maybe } from '@root/core/logic/Maybe';
 import {
@@ -12,6 +13,7 @@ import { LikeEntity } from '@root/domain/enterprise/entities/like.entity';
 import { LikeAdvertisementMappers } from '../mappers/like-advertisement.mappers';
 import { PrismaService } from '../prisma.service';
 
+@Injectable()
 export class PrismaLikeAdvertisementRepository implements LikeAdvertisementRepository {
   constructor(private readonly prismaService: PrismaService) {}
 

@@ -6,6 +6,7 @@ import { DeleteImageUseCase } from './delete-image.use-case';
 import { FindAllImagesUseCase } from './find-all-images.use-case';
 import { FindImagesMetricsUseCase } from './find-images-metrics.use-case';
 import { UpdateImageUseCase } from './update-image.use-case';
+import { UploadAvatarUseCase } from './upload-avatar.use-case';
 import { UploadImageUseCase } from './upload-image.use-case';
 
 @Module({
@@ -16,7 +17,15 @@ import { UploadImageUseCase } from './upload-image.use-case';
     UploadImageUseCase,
     FindAllImagesUseCase,
     FindImagesMetricsUseCase,
+    UploadAvatarUseCase,
   ],
-  exports: [DeleteImageUseCase, UpdateImageUseCase, UploadImageUseCase, FindAllImagesUseCase, FindImagesMetricsUseCase],
+  exports: [
+    DeleteImageUseCase,
+    UpdateImageUseCase,
+    UploadImageUseCase,
+    FindAllImagesUseCase,
+    FindImagesMetricsUseCase,
+    UploadAvatarUseCase,
+  ],
 })
 export class ImageUseCasesModule {}

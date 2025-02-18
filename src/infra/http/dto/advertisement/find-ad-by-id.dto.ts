@@ -15,7 +15,7 @@ import {
   Model,
   SoldStatus,
 } from '@root/domain/enterprise/entities/advertisement.entity';
-import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { SwaggerBadRequestDto, SwaggerResourceNotFoundDto } from '../swagger.dto';
 
@@ -76,13 +76,23 @@ class ImageDto {
   @IsNotEmpty()
   @IsString()
   blurHash: string;
+
+  @ApiProperty({ example: 'e5a67153-d256-4721-b791-760fcd581c7b', description: 'The unique identifier of the image' })
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @ApiProperty({ example: true, description: 'The identifier if image is thumbnail' })
+  @IsBoolean()
+  @IsNotEmpty()
+  isThumbnail: string;
 }
 
 class BrandDto {
   @ApiProperty({ example: 'e5a67153-d256-4721-b791-760fcd581c7b', description: 'The unique identifier of the brand' })
   @IsString()
   @IsNotEmpty()
-  brandId: string;
+  id: string;
 
   @ApiProperty({ example: 'Honda', description: 'The name of the brand' })
   @IsString()

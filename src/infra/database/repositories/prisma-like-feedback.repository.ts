@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { AsyncMaybe, Maybe } from '@root/core/logic/Maybe';
 import {
@@ -12,6 +13,7 @@ import { LikeEntity } from '@root/domain/enterprise/entities/like.entity';
 import { LikeFeedbackMappers } from '../mappers/like-feedback.mappers';
 import { PrismaService } from '../prisma.service';
 
+@Injectable()
 export class PrismaLikeFeedbackRepository implements LikeFeedbackRepository {
   constructor(private readonly prismaService: PrismaService) {}
 

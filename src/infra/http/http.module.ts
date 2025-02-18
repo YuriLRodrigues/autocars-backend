@@ -3,6 +3,7 @@ import { AddressUseCasesModule } from '@root/domain/application/use-cases/addres
 import { AdvertisementUseCasesModule } from '@root/domain/application/use-cases/advertisement/advertisement-use-cases.module';
 import { BrandUseCasesModule } from '@root/domain/application/use-cases/brand/brand-use-cases.module';
 import { FavoriteUseCasesModule } from '@root/domain/application/use-cases/favorite/favorite-use-cases.module';
+import { FeedbackUseCasesModule } from '@root/domain/application/use-cases/feedback/feedback-use-cases.module';
 import { ImageUseCasesModule } from '@root/domain/application/use-cases/image/image-use-cases.module';
 import { LikeUseCasesModule } from '@root/domain/application/use-cases/like/like-use-cases.module';
 import { UserUseCasesModule } from '@root/domain/application/use-cases/user/user-use-cases.module';
@@ -30,9 +31,12 @@ import { FindDistinctFavoritesCountController } from './controller/favorite/find
 import { FindFavoritesCountByAdvertisementController } from './controller/favorite/find-favorites-count-by-advertisement.controller';
 import { FindFavoritesCountController } from './controller/favorite/find-favorites-count.controller';
 import { HandleFavoriteController } from './controller/favorite/handle-favorite.controller';
+import { CreateFeedbackByAdvertisementIdController } from './controller/feedback/create-feedback-by-ad.controller';
+import { FindAllFeedbacksByAdvertisementIdController } from './controller/feedback/find-feedbacks-by-ad.controller';
 import { DeleteImageController } from './controller/image/delete-image.controller';
 import { FindAllImagesController } from './controller/image/find-all-images.controller';
 import { FindImagesMetricsController } from './controller/image/find-images-metrics.controller';
+import { UploadAvatarController } from './controller/image/upload-avatar.controller';
 import { UploadImagesController } from './controller/image/upload-images.controller';
 import { FindAdvertisementIsLikedController } from './controller/like/find-advertisement-is-liked.controller';
 import { FindAllAdvertisementLikesLikeController } from './controller/like/find-all-advertisement-likes.controller';
@@ -61,6 +65,7 @@ import { UpdateOwnUserController } from './controller/user/update-own-user.contr
     LikeUseCasesModule,
     AddressUseCasesModule,
     FavoriteUseCasesModule,
+    FeedbackUseCasesModule,
   ],
   controllers: [
     CreateAdvertisementController,
@@ -91,6 +96,7 @@ import { UpdateOwnUserController } from './controller/user/update-own-user.contr
     FindAllImagesController,
     FindImagesMetricsController,
     UploadImagesController,
+    UploadAvatarController,
 
     CreateBrandController,
     UpdateBrandController,
@@ -113,6 +119,9 @@ import { UpdateOwnUserController } from './controller/user/update-own-user.contr
     FindFavoritesCountController,
     FindAdvertisementIsFavoritedController,
     HandleFavoriteController,
+
+    FindAllFeedbacksByAdvertisementIdController,
+    CreateFeedbackByAdvertisementIdController,
   ],
 })
 export class HttpModule {}

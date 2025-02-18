@@ -656,8 +656,10 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
         },
         images: {
           select: {
+            id: true,
             url: true,
             blurHash: true,
+            isThumbnail: true,
           },
         },
         createdAt: true,
@@ -701,7 +703,12 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
           zipCode: ad.user.address.zipCode,
         },
       },
-      images: ad.images,
+      images: ad.images.map((img) => ({
+        blurHash: img.blurHash,
+        id: new UniqueEntityId(img.id),
+        url: img.url,
+        isThumbnail: img.isThumbnail,
+      })),
       createdAt: ad.createdAt,
       updatedAt: ad.updatedAt,
     });

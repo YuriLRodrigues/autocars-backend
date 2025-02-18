@@ -24,6 +24,8 @@ type AdvertisementDetailsProps = {
   images: Array<{
     url: string;
     blurHash: string;
+    id: UniqueEntityId;
+    isThumbnail: boolean;
   }>;
   brand: {
     brandId: UniqueEntityId;

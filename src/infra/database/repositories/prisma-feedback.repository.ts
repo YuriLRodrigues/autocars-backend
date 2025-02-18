@@ -11,7 +11,6 @@ import {
   SaveProps,
 } from '@root/domain/application/repositories/feedback.repository';
 import { FeedbackEntity } from '@root/domain/enterprise/entities/feedback.entity';
-import { LikeEntity } from '@root/domain/enterprise/entities/like.entity';
 import { FeedbackDetails } from '@root/domain/enterprise/value-object/feedback-details';
 
 import { FeedbackMappers } from '../mappers/feedback.mappers';
@@ -58,10 +57,15 @@ export class PrismaFeedbackRepository implements FeedbackRepository {
           id: true,
           comment: true,
           stars: true,
+          title: true,
           user: {
             select: {
               name: true,
               id: true,
+              avatar: true,
+              images: {
+                select: { isAvatar: true, blurHash: true },
+              },
             },
           },
           createdAt: true,
@@ -79,21 +83,16 @@ export class PrismaFeedbackRepository implements FeedbackRepository {
     const mappedFeedbacks = feedbacksByAd.map((fb) =>
       FeedbackDetails.create({
         comment: fb.comment,
-        feedbackId: new UniqueEntityId(fb.id),
+        id: new UniqueEntityId(fb.id),
         stars: fb.stars,
+        title: fb.title,
         user: {
           name: fb.user.name,
-          userId: new UniqueEntityId(fb.user.id),
+          id: new UniqueEntityId(fb.user.id),
+          avatar: fb.user.avatar || null,
+          blurHash: fb.user.images[0]?.blurHash || null,
         },
-        likes: fb.likes.map((like) =>
-          LikeEntity.create({
-            userId: new UniqueEntityId(like.userId),
-            advertisementId: new UniqueEntityId(like.advertisementId),
-            feedbackId: new UniqueEntityId(like.feedbackId),
-            createdAt: like.createdAt,
-            updatedAt: like.updatedAt,
-          }),
-        ),
+        totalLikes: fb.likes.length,
       }),
     );
 
