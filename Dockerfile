@@ -22,8 +22,6 @@ FROM node:20-alpine AS server
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/build ./build
-COPY --from=build /app/.env ./.env
-COPY --from=build /app/.env.production ./.env.production
 
 
 EXPOSE 3333
