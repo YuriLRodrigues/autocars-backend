@@ -1,5 +1,6 @@
 FROM node:20-alpine AS dependencies
 WORKDIR /app
+RUN apk add --no-cache openssl1.1-compat
 COPY package*.json ./
 RUN npm install
 
@@ -12,7 +13,6 @@ ARG VERSION="docker-nidoran"
 RUN npm run build
 
 FROM node:20-alpine AS deploy
-RUN apk add --no-cache openssl1.1-compat
 WORKDIR /app
 RUN apt-get update -y 
 ENV NODE_ENV production
