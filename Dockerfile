@@ -8,7 +8,6 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
-ARG APP_ENV="production"
 ARG VERSION="docker-nidoran"
 
 RUN npm run build
@@ -21,8 +20,7 @@ ENV NODE_ENV production
 FROM node:20-alpine AS server
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/build ./dist
-
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3333
 
