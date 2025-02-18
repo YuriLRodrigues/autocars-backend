@@ -8,8 +8,9 @@ RUN npm ci --omit=dev --ignore-scripts
 FROM node:20-alpine AS compiler
 WORKDIR /dist
 COPY --chown=node:node . .
+RUN npm install 
 RUN npx prisma generate
-RUN npm install && npm run build
+RUN npm run build
 
 FROM node:20-alpine
 ENV HOME=/home/app
