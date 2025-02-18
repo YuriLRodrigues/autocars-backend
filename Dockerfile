@@ -1,35 +1,31 @@
-FROM node:20-alpine AS builder
-
+FROM node:20-alpine AS dependencies
 WORKDIR /app
+COPY package*.json ./
+RUN npm install
 
-RUN apk add --no-cache libssl1.1-compat
-
-COPY package.json package-lock.json ./
-
-RUN npm ci
-
-COPY prisma ./prisma
-RUN npx prisma generate
-
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
+
+ARG APP_ENV="production"
+ARG VERSION="docker-nidoran"
 
 RUN npm run build
 
-FROM node:20-alpine AS runner
+FROM node:20-alpine AS deploy
+WORKDIR /app
+RUN apt-get update -y 
+ENV NODE_ENV production
 
-WORKDIR /home/app
+FROM node:20-alpine AS server
+COPY --from=build /app/package.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/build ./build
+COPY --from=build /app/.env ./.env
+COPY --from=build /app/.env.production ./.env.production
 
-RUN apk add --no-cache libssl1.1-compat
 
-COPY --from=builder /app/package.json /app/package-lock.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/dist ./dist
-
-USER node
-
-ENV NODE_ENV=production
-
-EXPOSE 3000
+EXPOSE 3333
 
 CMD ["npm", "run", "start:prod"]
