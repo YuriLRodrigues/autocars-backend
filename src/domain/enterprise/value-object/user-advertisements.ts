@@ -2,7 +2,7 @@ import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ValueObject } from '@root/core/domain/value-object/value-object';
 import { validateUsername } from '@root/utils/validate-username';
 
-import { SoldStatus } from '../entities/advertisement.entity';
+import { Capacity, Doors, Fuel, GearBox, Model, SoldStatus } from '../entities/advertisement.entity';
 
 export type UserAdvertisementsProps = {
   user: {
@@ -17,6 +17,14 @@ export type UserAdvertisementsProps = {
     price: number;
     salePrice?: number;
     soldStatus: SoldStatus;
+    km: number;
+    thumbnailUrl: string;
+    blurHash: string;
+    capacity: Capacity;
+    model: Model;
+    doors: Doors;
+    fuel: Fuel;
+    gearBox: GearBox;
   };
 };
 

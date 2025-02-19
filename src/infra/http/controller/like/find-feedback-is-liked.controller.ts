@@ -3,9 +3,10 @@ import { ApiTags } from '@nestjs/swagger';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ResourceNotFoundError } from '@root/core/errors/resource-not-found-error';
 import { FindFeedbackIsLikedUseCase } from '@root/domain/application/use-cases/like/find-feedback-is-liked.use-case';
+import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
 import { UserPayload } from '@root/infra/auth/auth-user';
 import { CurrentUser } from '@root/infra/auth/current-user';
-import { Public } from '@root/infra/auth/public';
+import { Roles } from '@root/infra/auth/roles';
 
 import { SwaggerFindFeedbackIsLikedDto } from '../../dto/like/find-feedback-is-liked.dto';
 
@@ -15,8 +16,8 @@ export class FindFeedbackIsLikedController {
   constructor(private readonly findFeedbackIsLiked: FindFeedbackIsLikedUseCase) {}
 
   @SwaggerFindFeedbackIsLikedDto()
-  @Public()
-  @Get('fb/:id')
+  @Roles({ roles: [UserRoles.Customer, UserRoles.Seller, UserRoles.Manager], isAll: false })
+  @Get('fb/is-liked/:id')
   async handle(@Param('id') id: string, @CurrentUser() payload: UserPayload) {
     const { sub } = payload;
 

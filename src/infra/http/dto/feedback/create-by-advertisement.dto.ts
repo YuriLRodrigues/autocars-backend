@@ -1,4 +1,4 @@
-import { ApiBadRequestResponse, ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { IsNumber, IsString, Max, Min } from 'class-validator';
 
 import { SwaggerBadRequestDto } from '../swagger.dto';
@@ -30,6 +30,7 @@ class CreateFeedbackByAdResponseDto {
 export const SwaggerCreateFeedbackByAdIdDto = () => {
   return function (target: any, key: any, descriptor: any) {
     ApiOperation({ operationId: 'createFeedbackByAdId' })(target, key, descriptor);
+    ApiBearerAuth()(target, key, descriptor);
     ApiResponse({ type: CreateFeedbackByAdResponseDto, status: 201, description: 'Feedback created' })(
       target,
       key,

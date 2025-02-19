@@ -3,8 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
 import { ResourceNotFoundError } from '@root/core/errors/resource-not-found-error';
 import { FindAllAdsByUserIdUseCase } from '@root/domain/application/use-cases/advertisement/find-all-ads-by-user-id.use-case';
-import { UserRoles } from '@root/domain/enterprise/entities/user.entity';
-import { Roles } from '@root/infra/auth/roles';
+import { Public } from '@root/infra/auth/public';
 
 import { SwaggerFindAllAdsByUserIdDto } from '../../dto/advertisement/find-all-ads-by-user-id.dto';
 import { PaginationDto } from '../../dto/pagination.dto';
@@ -16,8 +15,8 @@ export class FindAllAdvertisementsByUserIdController {
   constructor(private readonly findAllAdsByUserIdUseCase: FindAllAdsByUserIdUseCase) {}
 
   @SwaggerFindAllAdsByUserIdDto()
-  @Get('/all/owner/:userId')
-  @Roles({ roles: [UserRoles.Seller, UserRoles.Manager, UserRoles.Customer], isAll: false })
+  @Get('/all/by-user/:userId')
+  @Public()
   async handle(@Query() query: PaginationDto, @Param('userId') userId: string) {
     const { limit, page } = query;
 

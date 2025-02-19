@@ -15,6 +15,14 @@ export class UserAdvertisementViewModel {
         price: entity.advertisement.price,
         salePrice: entity.advertisement.salePrice ?? null,
         soldStatus: entity.advertisement.soldStatus,
+        km: entity.advertisement.km,
+        thumbnailUrl: entity.advertisement.thumbnailUrl,
+        blurHash: entity.advertisement.blurHash,
+        capacity: entity.advertisement.capacity,
+        model: entity.advertisement.model,
+        doors: entity.advertisement.doors,
+        fuel: entity.advertisement.fuel,
+        gearBox: entity.advertisement.gearBox,
       },
     };
   }

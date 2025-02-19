@@ -17,7 +17,7 @@ export class FindAdvertisementIsLikedController {
 
   @SwaggerFindAdIsLikedDto()
   @Roles({ roles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller], isAll: false })
-  @Get('ad/:id')
+  @Get('ad/is-liked/:id')
   async handle(@Param('id') id: string, @CurrentUser() payload: UserPayload) {
     const { sub } = payload;
 

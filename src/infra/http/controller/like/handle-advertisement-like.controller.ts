@@ -17,7 +17,7 @@ export class HandleAdvertisementLikeController {
 
   @SwaggerHandleAdvertisementLikeDto()
   @Roles({ roles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller], isAll: false })
-  @Patch('ad/:id')
+  @Patch('ad/handle-like/:id')
   async handle(@Param('id') id: string, @CurrentUser() { sub }: UserPayload) {
     const likeAd = await this.handleAdvertisement.execute({
       advertisementId: new UniqueEntityId(id),

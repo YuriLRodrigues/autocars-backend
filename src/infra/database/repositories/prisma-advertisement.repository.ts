@@ -67,6 +67,21 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
           soldStatus: true,
           title: true,
           salePrice: true,
+          km: true,
+          capacity: true,
+          model: true,
+          doors: true,
+          fuel: true,
+          gearBox: true,
+          images: {
+            where: {
+              isThumbnail: true,
+            },
+            select: {
+              blurHash: true,
+              url: true,
+            },
+          },
           user: {
             select: {
               name: true,
@@ -90,6 +105,14 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
           soldStatus: SoldStatus[ad.soldStatus],
           title: ad.title,
           salePrice: ad.salePrice || null,
+          km: ad.km,
+          capacity: Capacity[ad.capacity],
+          model: Model[ad.model],
+          doors: Doors[ad.doors],
+          fuel: Fuel[ad.fuel],
+          gearBox: GearBox[ad.gearBox],
+          blurHash: ad.images[0].blurHash,
+          thumbnailUrl: ad.images[0].url,
         },
         user: {
           id: new UniqueEntityId(ad.user.id),

@@ -10,7 +10,7 @@ import { Roles } from '@root/infra/auth/roles';
 
 import { SwaggerFindAdIsFavoritedDto } from '../../dto/favorite/find-ad-is-favorited.dto';
 
-@ApiTags('Like - Controller')
+@ApiTags('Favorite - Controller')
 @Controller('/favorite')
 export class FindAdvertisementIsFavoritedController {
   constructor(private readonly findAdvertisementIsFavorited: FindAdvertisementIsFavoritedUseCase) {}

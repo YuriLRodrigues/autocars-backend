@@ -136,7 +136,7 @@ model Like {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime
 
-  @@unique([advertisementId, userId])
+  @@unique([advertisementId, userId, feedbackId])
 }
 
 model Feedback {

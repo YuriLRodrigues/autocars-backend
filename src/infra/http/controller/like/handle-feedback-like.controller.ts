@@ -17,7 +17,7 @@ export class HandleFeedbackLikeController {
 
   @SwaggerHandleFeedbackLikeDto()
   @Roles({ roles: [UserRoles.Customer, UserRoles.Manager, UserRoles.Seller], isAll: false })
-  @Patch('fb/:id')
+  @Patch('fb/handle-like/:id')
   async handle(@Param('id') id: string, @CurrentUser() { sub }: UserPayload) {
     const likeAd = await this.handleFeedback.execute({
       feedbackId: new UniqueEntityId(id),

@@ -1,8 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { SoldStatus } from '@root/domain/enterprise/entities/advertisement.entity';
+import {
+  Capacity,
+  Doors,
+  Fuel,
+  GearBox,
+  Model,
+  SoldStatus,
+} from '@root/domain/enterprise/entities/advertisement.entity';
 import { IsString, IsUrl, IsNumber, IsOptional, IsEnum, IsDate } from 'class-validator';
 
-class UserDto {
+class UserByIdDto {
   @ApiProperty({ example: 'https://example.com/profile.jpg', description: 'URL of the user profile image' })
   @IsUrl()
   profileImg: string;
@@ -16,7 +23,7 @@ class UserDto {
   id: string;
 }
 
-class AdvertisementDto {
+class AdvertisementByUserIdDto {
   @ApiProperty({ example: '2024-12-12T10:00:00.000Z', description: 'Creation date of the advertisement' })
   @IsDate()
   createdAt: Date;
@@ -49,15 +56,67 @@ class AdvertisementDto {
   @IsEnum(SoldStatus)
   soldStatus: SoldStatus;
 
-  @ApiProperty({ example: 'https://example.com/profile.jpg', description: 'URL of the ad thumbnail' })
-  @IsUrl()
-  thumbnail: string;
+  @ApiProperty({
+    description: 'Vehicle mileage',
+    type: Number,
+  })
+  @IsNumber()
+  km: number;
+
+  @ApiProperty({
+    description: 'Advertisement thumbnail URL',
+    type: String,
+  })
+  @IsString()
+  thumbnailUrl: string;
+
+  @ApiProperty({
+    description: 'BlurHash for the image, used for low-quality image preview',
+    example: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+  })
+  @IsString()
+  blurHash: string;
+
+  @ApiProperty({
+    description: 'Vehicle capacity',
+    enum: Capacity,
+  })
+  @IsEnum(Capacity)
+  capacity: Capacity;
+
+  @ApiProperty({
+    description: 'Number of doors',
+    enum: Doors,
+  })
+  @IsEnum(Doors)
+  doors: Doors;
+
+  @ApiProperty({
+    description: 'Fuel type',
+    enum: Fuel,
+  })
+  @IsEnum(Fuel)
+  fuel: Fuel;
+
+  @ApiProperty({
+    description: 'Gearbox type',
+    enum: GearBox,
+  })
+  @IsEnum(GearBox)
+  gearBox: GearBox;
+
+  @ApiProperty({
+    description: 'Model type',
+    enum: Model,
+  })
+  @IsEnum(Model)
+  model: Model;
 }
 
-export class UserAdvertisementsDto {
-  @ApiProperty({ type: () => UserDto, description: 'Details of the user' })
-  user: UserDto;
+export class AdvertisementsByUserDto {
+  @ApiProperty({ type: () => UserByIdDto, description: 'Details of the user' })
+  user: UserByIdDto;
 
-  @ApiProperty({ type: () => AdvertisementDto, description: 'Details of the advertisement' })
-  advertisement: AdvertisementDto;
+  @ApiProperty({ type: () => AdvertisementByUserIdDto, description: 'Details of the advertisement' })
+  advertisement: AdvertisementByUserIdDto;
 }

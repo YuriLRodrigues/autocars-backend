@@ -1,5 +1,6 @@
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOperation,
   ApiProperty,
@@ -92,6 +93,7 @@ export class MeDto {
 export const SwaggerMeDto = () => {
   return function (target: any, key: any, descriptor: any) {
     ApiOperation({ operationId: 'me' })(target, key, descriptor);
+    ApiBearerAuth()(target, key, descriptor);
     ApiResponse({ status: 200, description: 'Profile details', type: MeDto })(target, key, descriptor);
     ApiNotFoundResponse({ status: 404, description: 'Resource not found', type: SwaggerResourceNotFoundDto });
     ApiBadRequestResponse({ status: 400, description: 'Bad request', type: SwaggerBadRequestDto })(
