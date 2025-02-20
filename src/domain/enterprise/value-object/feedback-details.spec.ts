@@ -1,5 +1,4 @@
 import { UniqueEntityId } from '@root/core/domain/entity/unique-id.entity';
-import { makeFakeLike } from 'test/factory/make-fake-like';
 
 import { FeedbackDetails } from './feedback-details';
 
@@ -7,22 +6,28 @@ describe('Feedback Details - Value Object', () => {
   it('should be able to create a new feedback details with value object', () => {
     const output = FeedbackDetails.create({
       comment: 'Comment Test',
-      feedbackId: new UniqueEntityId('1'),
-      likes: [makeFakeLike()],
+      id: new UniqueEntityId('1'),
       stars: 5,
+      title: 'Title',
       user: {
-        name: 'user name test',
-        userId: new UniqueEntityId('1'),
+        id: new UniqueEntityId('1'),
+        name: 'User name test',
+        avatar: 'avatar.jpg',
+        blurHash: '#testblurhash',
       },
+      totalLikes: 10,
+      createdAt: new Date('2022-01-01'),
     });
 
-    expect(output.feedbackId).toBeInstanceOf(UniqueEntityId);
-    expect(output.feedbackId.toValue()).toEqual('1');
-    expect(output.userId).toBeInstanceOf(UniqueEntityId);
-    expect(output.userId.toValue()).toEqual('1');
-    expect(output.userName).toEqual('user name test');
+    expect(output.id).toBeInstanceOf(UniqueEntityId);
+    expect(output.user.id).toBeInstanceOf(UniqueEntityId);
+    expect(output.title).toEqual('Title');
     expect(output.comment).toEqual('Comment Test');
-    expect(output.likes).toHaveLength(1);
     expect(output.stars).toEqual(5);
+    expect(output.totalLikes).toEqual(10);
+    expect(output.user.name).toEqual('User name test');
+    expect(output.user.avatar).toEqual('avatar.jpg');
+    expect(output.user.blurHash).toEqual('#testblurhash');
+    expect(output.createdAt).toBeInstanceOf(Date);
   });
 });

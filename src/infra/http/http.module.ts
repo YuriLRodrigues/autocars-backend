@@ -20,6 +20,7 @@ import { FindAllManagerAdvertisementsController } from './controller/advertiseme
 import { FindAllOwnAdvertisementsController } from './controller/advertisemet/find-all-own-ads.controller';
 import { FindAllSoldAdsController } from './controller/advertisemet/find-all-sold-ads.controller';
 import { UpdateAdvertisementController } from './controller/advertisemet/update-ad.controller';
+import { UpdateSalePriceController } from './controller/advertisemet/update-sale-price.controller';
 import { CreateBrandController } from './controller/brand/create-brand.controller';
 import { DeleteBrandController } from './controller/brand/delete-brand.controller';
 import { FindAllBrandsController } from './controller/brand/find-all-brands.controller';
@@ -79,6 +80,7 @@ import { UpdateOwnUserController } from './controller/user/update-own-user.contr
     FindAllAdvertisementsController,
     FindAllSoldAdsController,
     UpdateAdvertisementController,
+    UpdateSalePriceController,
 
     HandleActiveUserController,
     DeleteOwnUserController,

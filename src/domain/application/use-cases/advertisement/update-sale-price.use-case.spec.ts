@@ -15,10 +15,10 @@ import { InMemoryImageRepository } from 'test/repositories/in-memory-image-repos
 import { InMemoryLikeAdvertisementRepository } from 'test/repositories/in-memory-like-advertisement-repository';
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository';
 
-import { UpdateAdUseCase } from './update-ad.use-case';
+import { UpdateSalePriceUseCase } from './update-sale-price.use-case';
 
-describe('Update Advertisement - Use Case', () => {
-  let sut: UpdateAdUseCase;
+describe('Update SalePrice - Use Case', () => {
+  let sut: UpdateSalePriceUseCase;
   let inMemoryAdvertisementRepository: InMemoryAdvertisementRepository;
   let inMemoryUserRepository: InMemoryUserRepository;
   let inMemoryBrandRepository: InMemoryBrandRepository;
@@ -39,10 +39,10 @@ describe('Update Advertisement - Use Case', () => {
       inMemoryImageRepository,
       inMemoryAddressRepository,
     );
-    sut = new UpdateAdUseCase(inMemoryAdvertisementRepository, inMemoryImageRepository, inMemoryUserRepository);
+    sut = new UpdateSalePriceUseCase(inMemoryAdvertisementRepository, inMemoryUserRepository);
   });
 
-  it('should be able to edit an advertisement and validate new thumbnail', async () => {
+  it('should be able to update the sale price', async () => {
     const user = makeFakeUser({ roles: [UserRoles.Customer] });
     inMemoryUserRepository.register({ user });
 
@@ -52,7 +52,7 @@ describe('Update Advertisement - Use Case', () => {
     const brand = makeFakeBrand();
     inMemoryBrandRepository.create({ brand });
 
-    const advertisement = makeFakeAdvertisement({ title: 'Old Title', userId: user.id, brandId: brand.id });
+    const advertisement = makeFakeAdvertisement({ price: 1000, userId: user.id, brandId: brand.id });
     inMemoryAdvertisementRepository.createAd({ advertisement });
 
     repeat(5, () => {
@@ -68,22 +68,21 @@ describe('Update Advertisement - Use Case', () => {
 
     const output = await sut.execute({
       id: advertisement.id,
-      title: 'New Title - Test',
       userId: user.id,
-      thumbnailImageId: newImageThumb.id,
+      salePrice: 10000,
     });
 
     expect(output.isRight()).toBe(true);
     expect(output.value).toBe(null);
     expect(inMemoryAdvertisementRepository.advertisements[0]).toEqual(
       expect.objectContaining({
-        title: 'New Title - Test',
-        thumbnailUrl: newImageThumb.url,
+        salePrice: 10000,
+        price: 1000,
       }),
     );
   });
 
-  it('should not be able to edit an advertisement with invalidId', async () => {
+  it('should not be able to update the sale price with invalidId', async () => {
     const user = makeFakeUser();
     inMemoryUserRepository.register({ user });
 
@@ -92,7 +91,7 @@ describe('Update Advertisement - Use Case', () => {
 
     const output = await sut.execute({
       id: new UniqueEntityId(),
-      title: 'New Title - Test',
+      salePrice: 10000,
       userId: user.id,
     });
 
@@ -100,7 +99,7 @@ describe('Update Advertisement - Use Case', () => {
     expect(output.value).toBeInstanceOf(ResourceNotFoundError);
   });
 
-  it('should not be able to edit an advertisement with invalid userId (non-existent)', async () => {
+  it('should not be able to update the sale price with invalid userId (non-existent)', async () => {
     const user = makeFakeUser();
     inMemoryUserRepository.register({ user });
 
@@ -109,7 +108,7 @@ describe('Update Advertisement - Use Case', () => {
 
     const output = await sut.execute({
       id: advertisement.id,
-      title: 'New Title - Test',
+      salePrice: 10000,
       userId: new UniqueEntityId(),
     });
 
@@ -117,7 +116,7 @@ describe('Update Advertisement - Use Case', () => {
     expect(output.value).toBeInstanceOf(ResourceNotFoundError);
   });
 
-  it('should not possible to update an ad if you are not the manager or owner of the ad', async () => {
+  it('should not possible to update a the sale price if you are not the manager or owner of the ad', async () => {
     const userNotOwner = makeFakeUser({ roles: [UserRoles.Customer] });
     inMemoryUserRepository.register({ user: userNotOwner });
 
@@ -135,7 +134,7 @@ describe('Update Advertisement - Use Case', () => {
 
     const output = await sut.execute({
       id: advertisement.id,
-      title: 'New Title - Test',
+      salePrice: 10000,
       userId: userNotOwner.id,
     });
 

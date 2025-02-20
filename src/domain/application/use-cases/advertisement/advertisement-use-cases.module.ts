@@ -12,6 +12,7 @@ import { FindAllSoldsAdsUseCase } from './find-all-sold-ads.use-case';
 import { FindMetricsByUserIdUseCase } from './find-metrics-by-user-id.use-case';
 import { FindMetricsUseCase } from './find-metrics.use-case';
 import { UpdateAdUseCase } from './update-ad.use-case';
+import { UpdateSalePriceUseCase } from './update-sale-price.use-case';
 
 @Module({
   imports: [DatabaseModule],
@@ -27,6 +28,7 @@ import { UpdateAdUseCase } from './update-ad.use-case';
     FindMetricsByUserIdUseCase,
     FindMetricsUseCase,
     UpdateAdUseCase,
+    UpdateSalePriceUseCase,
   ],
   exports: [
     CreateAdUseCase,
@@ -40,6 +42,7 @@ import { UpdateAdUseCase } from './update-ad.use-case';
     FindMetricsByUserIdUseCase,
     FindMetricsUseCase,
     UpdateAdUseCase,
+    UpdateSalePriceUseCase,
   ],
 })
 export class AdvertisementUseCasesModule {}

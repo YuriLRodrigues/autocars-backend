@@ -5,7 +5,6 @@ import {
   ApiOperation,
   ApiParam,
   ApiProperty,
-  ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
 import {
@@ -163,12 +162,6 @@ export const SwaggerUpdateAdDto = () => {
       key,
       descriptor,
     );
-    ApiQuery({
-      required: false,
-      name: 'userId',
-      example: '/123',
-      description: 'Id of user to be found',
-    });
     ApiParam({
       name: 'id',
       type: String,
