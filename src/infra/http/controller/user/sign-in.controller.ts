@@ -1,5 +1,14 @@
-import { BadRequestException, Body, Controller, HttpStatus, NotFoundException, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpStatus,
+  NotFoundException,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { InactiveResourceError } from '@root/core/errors/inactive-resource-error';
 import { InvalidCredentialsError } from '@root/core/errors/invalid-credentials-error';
 import { AuthorizationUserUseCase } from '@root/domain/application/use-cases/user/authorization-user.use-case';
 import { Public } from '@root/infra/auth/public';
@@ -27,6 +36,11 @@ export class SignInController {
         case InvalidCredentialsError:
           throw new NotFoundException({
             statusCode: HttpStatus.NOT_FOUND,
+            error: error.message,
+          });
+        case InactiveResourceError:
+          throw new UnauthorizedException({
+            statusCode: HttpStatus.UNAUTHORIZED,
             error: error.message,
           });
         default:

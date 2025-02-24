@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { InactiveResourceError } from '@root/core/errors/inactive-resource-error';
 import { InvalidCredentialsError } from '@root/core/errors/invalid-credentials-error';
 import { Either, left, right } from '@root/core/logic/Either';
 
@@ -11,7 +12,7 @@ type Input = {
   password: string;
 };
 
-type Output = Either<InvalidCredentialsError, string>;
+type Output = Either<InvalidCredentialsError | InactiveResourceError, string>;
 
 @Injectable()
 export class AuthorizationUserUseCase {
@@ -34,6 +35,10 @@ export class AuthorizationUserUseCase {
 
     if (!isPasswordCorrect) {
       return left(new InvalidCredentialsError());
+    }
+
+    if (user.disabled) {
+      return left(new InactiveResourceError());
     }
 
     const token = await this.encrypter.encrypt({
