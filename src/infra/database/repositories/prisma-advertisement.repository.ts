@@ -529,11 +529,7 @@ export class PrismaAdvertisementRepository implements AdvertisementRepository {
                     : undefined,
                 },
                 {
-                  km: search?.km
-                    ? {
-                        lte: search?.km,
-                      }
-                    : undefined,
+                  km: search.km !== undefined && search.km !== null ? { lte: search.km } : undefined,
                 },
               ],
             },
